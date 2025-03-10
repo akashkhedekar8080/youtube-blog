@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("./partials/head") %>
+    <title><%= locals.blog ? "Edit Blog" : "Add New Blog" %></title>
+  </head>
+  <body>
+    <%- include("./partials/nav") %>
+
+    <div class="container m-5">
+      <form
+        action="<%= locals.blog ? `/blog/edit/${locals.blog._id}` : '/blog/add-new' %>"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        <div class="mb-3">
+          <label for="coverImage" class="form-label">Upload cover image:</label>
+          <input
+            type="file"
+            name="coverImage"
+            class="form-control"
+            id="coverImage"
+            aria-describedby="coverImage"
+          />
+          <% if (locals.blog && locals.blog.coverImageURL) { %>
+          <p>
+            Current Image:
+            <img
+              src="<%= locals.blog.coverImageURL %>"
+              alt="Cover Image"
+              width="100"
+            />
+          </p>
+          <% } %>
+        </div>
+
+        <div class="mb-3">
+          <label for="title" class="form-label">Title:</label>
+          <input
+            type="text"
+            name="title"
+            class="form-control"
+            id="title"
+            value="<%= locals.blog ? locals.blog.title : '' %>"
+            aria-describedby="title"
+            required
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="body" class="form-label">Body:</label>
+          <textarea
+            class="form-control"
+            id="body"
+            name="body"
+            rows="5"
+            required
+          >
+<%= locals.blog ? locals.blog.body : '' %></textarea
+          >
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+          <%= locals.blog ? "Update Blog" : "Submit" %>
+        </button>
+      </form>
+    </div>
+
+    <%- include("./partials/script") %>
+  </body>
+</html>
